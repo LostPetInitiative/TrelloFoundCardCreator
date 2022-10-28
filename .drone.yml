@@ -1,0 +1,40 @@
+---
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+- name: build & test docker image
+  image: plugins/docker
+  settings:
+    repo: lostpetinitiative/trello-found-card-creator
+    dry_run: true
+- name: build & push docker image (main branch)
+  image: plugins/docker
+  when:
+    branch:
+    - main
+    event:
+      exclude:
+        - tag
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: lostpetinitiative/trello-found-card-creator
+    auto_tag: true
+    force_tag: true
+- name: build & push docker image (tag)
+  image: plugins/docker
+  when:
+    event:
+    - tag
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: lostpetinitiative/trello-found-card-creator
+    auto_tag: true
+    force_tag: true  
