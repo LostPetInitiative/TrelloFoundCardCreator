@@ -7,6 +7,7 @@ import asyncio
 import datetime
 import base64
 from time import sleep
+from datetime import datetime
 import requests
 import json
 
@@ -81,7 +82,8 @@ async def work():
                 'pos': 1.0 - topSimilarity,
                 'name': f"{namespace}/{local_id}:{topSimilarity:.3f}",
                 'desc': f"Доступны возможные совпадения\nCosSim (CZHTTE): {topSimilarity}",
-                'idMembers' : [trelloAppMemberId]
+                'idMembers' : [trelloAppMemberId],
+                'start': datetime.now().utcnow().isoformat()
             }
 
             cardCreated = False
