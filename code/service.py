@@ -1,14 +1,9 @@
-import copy
-
-import shutil
 import os
-import base64
 import asyncio
 import datetime
-import base64
 from time import sleep
+from datetime import datetime
 import requests
-import json
 
 import kafkajobs
 
@@ -78,7 +73,7 @@ async def work():
                 'key': trelloKey,
                 'token': trelloToken,
                 'idList': trelloIdList,
-                'pos': 1.0 - topSimilarity,
+                'pos': (1.0 - topSimilarity)*1e7,
                 'name': f"{namespace}/{local_id}:{topSimilarity:.3f}",
                 'desc': f"Доступны возможные совпадения\nCosSim (CZHTTE): {topSimilarity}",
                 'idMembers' : [trelloAppMemberId]
