@@ -69,11 +69,13 @@ async def work():
             # creating a trello card
             url = "https://api.trello.com/1/cards"
 
+            pos = max(1, (1.0 - topSimilarity)*1e7)
+
             query = {
                 'key': trelloKey,
                 'token': trelloToken,
                 'idList': trelloIdList,
-                'pos': (1.0 - topSimilarity)*1e7,
+                'pos': pos,
                 'name': f"{namespace}/{local_id}:{topSimilarity:.3f}",
                 'desc': f"Доступны возможные совпадения\nCosSim (CZHTTE): {topSimilarity}",
                 'idMembers' : [trelloAppMemberId]
