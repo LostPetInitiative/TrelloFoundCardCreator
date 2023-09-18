@@ -40,6 +40,11 @@ async def work():
         topSimilarity = similarities[0]["CosSimilarity"]
         print(f"Top similarity is {topSimilarity}")
 
+        if(topSimilarity > 0.99):
+            print(f"The similarity is too high: {topSimilarity}. Skipping {uid} as this is likely to be duplicate or wrong message type class assigned")
+            worker.Commit()
+            continue
+
         #query the card from storage REST API
         cardResp = requests.request(
             "GET",
@@ -77,7 +82,7 @@ async def work():
                 'idList': trelloIdList,
                 'pos': pos,
                 'name': f"{namespace}/{local_id}:{topSimilarity:.3f}",
-                'desc': f"Доступны возможные совпадения\nCosSim (CZHTTE): {topSimilarity}",
+                'desc': f"Доступны возможные совпадения\nCosSim (CZHTTE): {topSimilarity:.5f}",
                 'idMembers' : [trelloAppMemberId]
             }
 
